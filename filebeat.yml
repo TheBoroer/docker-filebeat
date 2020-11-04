@@ -16,10 +16,10 @@ processors:
         name: ${HOSTNAME:'filebeat-container'}
   - drop_fields:
       fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.type", "agent.version", "ecs.version", "input.type", "log.offset", "version"]
-      
+
 output.logstash:
   enabled: true
-  hosts: ['${LOGSTASH_HOST:'127.0.0.1:5044'}']
+  hosts: '${LOGSTASH_HOSTS:'127.0.0.1:5044'}'
   index: '${LOGSTASH_INDEX:'filebeat'}'
 
 logging:
