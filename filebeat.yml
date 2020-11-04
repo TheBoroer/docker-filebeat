@@ -4,7 +4,7 @@ filebeat.inputs:
       - ${LOG_PATH}
     type: log
     ignore_older: 24h
-    exclude_lines: [${EXCLUDE_LINE}]
+    exclude_lines: ['${EXCLUDE_LINE}']
     scan_frequency: ${SCAN_FREQUENCY:'5s'}
     fields_under_root: true
     fields:
