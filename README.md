@@ -1,4 +1,4 @@
-# Filebeat with simple env vars
+# Filebeat v7.9.3 + Basic Environment Variable Config
 
 ## Environment Variables
 
