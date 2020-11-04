@@ -19,8 +19,8 @@ processors:
       
 output.logstash:
   enabled: true
-  hosts: [${LOGSTASH_HOST:'127.0.0.1:5044'}]
-  index: ${LOGSTASH_INDEX:'filebeat'}
+  hosts: ['${LOGSTASH_HOST:'127.0.0.1:5044'}']
+  index: '${LOGSTASH_INDEX:'filebeat'}'
 
 logging:
   files:
