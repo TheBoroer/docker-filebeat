@@ -1,0 +1,29 @@
+filebeat.inputs:
+  -
+    paths:
+      - ${LOG_PATH}
+    type: log
+    ignore_older: 24h
+    exclude_lines: ['${EXCLUDE_LINE}']
+    scan_frequency: ${SCAN_FREQUENCY:5s}
+    fields_under_root: true
+    fields:
+      service_name: '${SERVICE_NAME:general}'
+
+processors:
+  - add_host_metadata:
+      geo:
+        name: '${HOSTNAME:filebeat-container}'
+  - drop_fields:
+      fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.type", "agent.version", "ecs.version", "input.type", "log.offset", "version"]
+      
+output.logstash:
+  enabled: true
+  hosts: ['${LOGSTASH_HOST:127.0.0.1:5044}']
+  index: '${LOGSTASH_INDEX:filebeat}'
+
+logging:
+  files:
+    rotateeverybytes: 10485760 # = 10MB
+    
+shipper:
