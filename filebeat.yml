@@ -9,17 +9,18 @@ filebeat.inputs:
     fields_under_root: true
     fields:
       service_name: ${SERVICE_NAME}
+      host_name: ${HOST_NAME}
 
 processors:
   - add_host_metadata:
-      geo:
-        name: '${HOST_NAME}'
+      cache.ttl: 60m
   - drop_fields:
       fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.type", "agent.version", "ecs.version", "input.type", "log.offset", "version"]
 
 output.logstash:
   enabled: true
-  hosts: ['${LOGSTASH_HOST}']
+  hosts:
+    - ${LOGSTASH_HOST}
   index: '${LOGSTASH_INDEX}'
 
 logging:
