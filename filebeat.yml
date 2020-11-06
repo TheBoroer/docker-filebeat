@@ -1,19 +1,35 @@
-filebeat.inputs:
-  -
-    paths:
-      - '${LOG_PATH}'
-    type: log
-    ignore_older: 24h
-    exclude_lines: ['${EXCLUDE_LINE}']
-    scan_frequency: ${SCAN_FREQUENCY}
-    fields_under_root: true
-    fields:
-      service_name: ${SERVICE_NAME}
-      host_name: ${HOST_NAME}
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+      hints.default_config:
+        enabled: false
+        type: container
+        paths:
+          - /var/lib/docker/containers/${data.container.id}/*.log*
+        exclude_lines: ["${EXCLUDE_LINE}"]
+        scan_frequency: ${SCAN_FREQUENCY}
+        fields_under_root: true
+        fields:
+          service_name: ${SERVICE_NAME}
+
+# filebeat.inputs:
+#   -
+#     paths:
+#       - '${LOG_PATH}'
+#     type: log
+#     ignore_older: 24h
+#     exclude_lines: ['${EXCLUDE_LINE}']
+#     scan_frequency: ${SCAN_FREQUENCY}
+#     fields_under_root: true
+#     fields:
+#       service_name: ${SERVICE_NAME}
 
 processors:
   - add_host_metadata:
-      cache.ttl: 60m
+      cache.ttl: 5m
+      netinfo.enabled: false
   - drop_fields:
       fields: ["agent.ephemeral_id", "agent.hostname", "agent.id", "agent.type", "agent.version", "ecs.version", "input.type", "log.offset", "version"]
 
@@ -21,10 +37,10 @@ output.logstash:
   enabled: true
   hosts:
     - ${LOGSTASH_HOST}
-  index: '${LOGSTASH_INDEX}'
+  index: ${LOGSTASH_INDEX}
 
 logging:
   files:
     rotateeverybytes: 10485760 # = 10MB
-    
+
 shipper:
