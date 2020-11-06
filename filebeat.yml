@@ -1,3 +1,14 @@
+# filebeat.inputs:
+#   -
+#     paths:
+#       - '${LOG_PATH}'
+#     type: log
+#     ignore_older: 24h
+#     exclude_lines: ['${EXCLUDE_LINE}']
+#     scan_frequency: ${SCAN_FREQUENCY}
+#     fields_under_root: true
+#     fields:
+#       service_name: ${SERVICE_NAME}
 
 filebeat.autodiscover:
   providers:
@@ -13,18 +24,6 @@ filebeat.autodiscover:
         fields_under_root: true
         fields:
           service_name: ${SERVICE_NAME}
-
-# filebeat.inputs:
-#   -
-#     paths:
-#       - '${LOG_PATH}'
-#     type: log
-#     ignore_older: 24h
-#     exclude_lines: ['${EXCLUDE_LINE}']
-#     scan_frequency: ${SCAN_FREQUENCY}
-#     fields_under_root: true
-#     fields:
-#       service_name: ${SERVICE_NAME}
 
 processors:
   - add_host_metadata:
