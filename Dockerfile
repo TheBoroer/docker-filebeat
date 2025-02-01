@@ -1,4 +1,4 @@
-FROM elastic/filebeat:7.9.3
+FROM elastic/filebeat:8.17.1
 
 COPY filebeat.yml /usr/share/filebeat/filebeat.yml
 
